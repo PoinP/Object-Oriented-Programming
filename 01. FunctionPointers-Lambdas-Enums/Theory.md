@@ -106,15 +106,17 @@ int main()
 Ламбда изразите са *анонимни функции*, тоест функции без име. Те са дълга и сложна тема, като на този етап ще разгледаме само по-базовите части. Ламбда функция се дефинира по следния начин
 
 ```cpp
-[]() -> <return_type> {}
+[](){}
+
+[]() -> <return_type> {} 
 ```
 
-Задължителни елементи на една ламбда: <br>
+Задължителни елементи на една ламбда:  
 Квадратните скоби `[]` се наричат *Capture Clause* или *Capture Closure*, но няма да се възползваме от него на този етап.  
 Кръглите скоби `()` указват параметрите на функцията.  
 Къдравите скоби `{}` са тялото на функцията. 
 
-Опционални елементи: <br>
+Опционални елементи:  
 -> <return_type> е елемент, който не е задължителен. Той експлицитно оказва типа, който връща ламбдата. В общия случай, той не е нужен, защото `C++` сам разбира типа, който връща ламбдата от нейното тяло.
 
 С други думи, по-горния код можем да го пренапишем по следния начин:
@@ -205,7 +207,7 @@ int main()
 
 ---
 
-На този тип `enum` могат да се присвояват произволни целочислени числа. Това означава, че е позолено прилагането на числа, които не са част от енумераторите на нашия `enum`. Това може да доведе до трудни за дебъгване проблеми и грешки в кода.
+На `enum` могат да се присвояват произволни целочислени числа. Това означава, че е позволено присвояването на числа, които не са част от енумераторите на нашия `enum`. Това може да доведе до трудни за дебъгване проблеми и грешки в кода.
 
 ```cpp
 enum ErrorCode
@@ -222,18 +224,18 @@ void handleError(ErrorCode errCode)
         case BadRequest: std::cout << "Bad request handled"; break;
         case Unauthorized: std::cout << "Unauthorized request handled"; break;
         case PaymentRequired: std::cout << "Payment required error handled"; break;
-        default: std::cout << "Illegal error! Crash!";
+        default: std::cout << "No enumerator for " << errCode;
     }
 }
 
 int main()
 {
     handleError(BadRequest); // OK
-    handleError(23); // Ще се компилира и ще работи, но не е окей, защото може да доведе до грешки
+    handleError(23); // Ще се компилира и ще работи, но често не е окей
 }
 ```
 
-Друга причина е, че имената на енумераторите са глобални, тоест може лесно да се случи препокриване(`shadowing` или `ambiguity`). 
+Друга причина за проблеми е, че имената на енумераторите са глобални, тоест може лесно да се случи препокриване(`shadowing` или `ambiguity`). 
 
 ```cpp
 enum ColorChannel
@@ -290,43 +292,43 @@ int main()
     cout << color;              // ERROR
     cout << (int)color;         // OK
 
-    showColor(Color::Blue)      // OK
     showColor(Blue)             // ERROR
+    showColor(Color::Blue)      // OK
 
-    showColor((Color)2)         // OK
     showColor(2);               // ERROR
+    showColor((Color)2)         // OK
 }
 ```
 
-По подразбиране всички `enum`-и са от тип `int`. Като езика ни позолява сами да си изберем целичисления тип, който нашия `enum` ще има.
+По подразбиране всички `enum`-и са от тип `int`. `С++` ни позолява сами да си изберем целичисления тип, който нашия `enum` ще има.
 
 ```cpp
-enum ErrorCode : char           // Големина на enum-а -> 1B(8 bytes)
+enum GreekLetters : char			// 1 Byte
 {
-    BadRequest = 400,           // 400
-    Unauthorized,               // 401
-    PaymentRequired,            // 402
+    Alpha = 'a',        // 'a'
+    Beta,				// 'b'
+    Gamma,				// 'c'
 };
 
-enum class Color : short        // Големина на enum-а -> 2B(16 bytes)
+enum class Color : short			// 2 Bytes
 {
     Red,
     Green,
     Blue
 };
 
-enum class Part                 // Големина на enum-а -> 4B(32 bytes)
+enum class Part						// 4 Bytes
 {
     CPU,
     GPU,
     PSU
 };
 
-enum class Weekend : double     // ERROR (double не е целичислен тип)
+enum class Weekend : double			// ERROR (double не е целичислен тип)
 {
     SATURDAY,
     SUNDAY
 };
 ```
 
-> Енумерациите е прието да се пишат или UPPER_CASE или PascalCase. Изберете си един от двата начина и използвайте само него
+> Енумераторите е прието да се пишат или UPPER_CASE или PascalCase. Изберете си един от двата начина и използвайте само него
