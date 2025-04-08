@@ -289,7 +289,13 @@ Person& Person::operator=(const Person& other)
             throw std::bad_alloc();
         }
 
+        strcpy(newFirstName, other.firstName);
+        strcpy(newSecondName, other.secondName);
+
+        delete[] this->firstName;
         this->firstName = newFirstName;
+
+        delete[] this->secondName;
         this->secondName = newSecondName;
     }
 
@@ -517,6 +523,7 @@ public:
 ```
 
 Когато имаме `const` поле:
+- Изтрива се имплицитно конструктора по подразбиране
 - Задължително се инициализира в `member initializer list`-a
 - Не може да се променя и да му се присвояват стойности => няма как да съществува `operator=`
 
