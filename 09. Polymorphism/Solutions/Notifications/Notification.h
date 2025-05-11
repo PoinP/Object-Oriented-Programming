@@ -17,15 +17,15 @@ public:
 	Notification() = default;
 	virtual ~Notification() noexcept;
 
+	Notification(const Notification&) = delete;
+	Notification& operator=(const Notification&) = delete;
+
 	void notifyAll(const SimpleString& message) const;
 	void notifyOne(const SimpleString& message, const Device* device) const;
 
 	bool canAttachDevice() const;
 	void attachDevice(Device* device);
 	void detachDevice(const Device* device);
-
-	Notification(const Notification&) = delete;
-	Notification& operator=(const Notification&) = delete;
 
 protected:
 	virtual void notify(const SimpleString& message, const Device* device) const = 0;

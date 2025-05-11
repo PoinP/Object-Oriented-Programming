@@ -9,7 +9,7 @@
 class FileNotification : public Notification
 {
 public:
-	FileNotification(const SimpleString filePath)
+	FileNotification(const SimpleString& filePath)
 		: filePath(filePath)
 	{
 	}
