@@ -223,7 +223,7 @@ public:
 
     virtual void conmect(const char* connectionUri) = 0;
     virtual void disconnect() = 0;
-    virtual bool isConnected() const;
+    virtual bool isConnected() const = 0;
 
     virtual void uploadFile(const char* filePathUri) const = 0;
     virtual void downloadFile(const char* fileUri, const char* savePath) const = 0;
